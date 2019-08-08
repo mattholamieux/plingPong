@@ -1,5 +1,5 @@
 # plingPong
-plingPong is an experimental melody sequencer.
+plingPong is an experimental web-based melody sequencer.
 
 Requires p5.js, p5.sound.js, and p5.play.js libraries.
 
