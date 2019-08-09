@@ -129,15 +129,6 @@ function draw() {
     }
   }
 
-  // function fade() {
-  //   // for (i=0;i<blocks.length;i++){
-  //   //   blocks[i].shapeColor = color(255,opacity);
-  //   // }
-  //   if (opacity > 90) {
-  //     opacity =opacity-1;
-  //   }
-  // }
-
   function nav() {
     if (keyIsDown(LEFT_ARROW)) {
       spr.position.x -= scl / 4;
