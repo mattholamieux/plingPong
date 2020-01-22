@@ -6,7 +6,7 @@ let balls;
 let scl = 20;
 let synths = [];
 let walls;
-let notes = ["C2", "D2", "E2", "G2", "A3", "B3", "C3", "D3", "E3"];
+let notes = ["C2", "D2", "E2", "G2", "A3", "B3", "C3", "D3", "E3", "G3"];
 let reverb;
 let opacity;
 let open = true;
@@ -38,10 +38,25 @@ function setup() {
   }
 
   // synths
-  reverb = new p5.Reverb();
+  compressor = new Tone.Compressor({
+    ratio: 12,
+    threshold: -24,
+    release: 0.25,
+    attack: 0.003,
+    knee: 30
+  });
+  compressor.connect(Tone.Master);
+  reverb = new Tone.Freeverb().connect(compressor);
+  delay = new Tone.PingPongDelay().connect(compressor);
+  delay.wet.value = 0;
+  delay.delayTime.value = 0.25;
+  delay.feedback.value = 0;
+  reverb.wet.value = 0.4;
+  reverb.roomSize.value = 0.4;
+  reverb.dampening.value = 300;
   for (i = 0; i < 10; i++) {
-    synths[i] = new p5.MonoSynth();
-    reverb.process(synths[i], 3, 2);
+    synths[i] = new Tone.Synth().chain(delay, reverb);
+    synths[i].oscillator.type = 'sine';
   }
 
 }
@@ -116,7 +131,7 @@ function draw() {
     let dur = 1 / 8;
     let v = random(0.2, 1);
     let n = b.position.x / 90 - 1;
-    synths[n].play(notes[n], v, 0, dur);
+    synths[n].triggerAttackRelease(notes[n], '16n');
     a.velocity.y *= -1;
   }
 
